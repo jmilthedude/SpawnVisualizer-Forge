@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
+import net.ninjadev.spawnvisualizer.SpawnVisualizer;
 import net.ninjadev.spawnvisualizer.gui.ConfigScreen;
 import net.ninjadev.spawnvisualizer.init.ModConfigs;
 import net.ninjadev.spawnvisualizer.init.ModKeybinds;
@@ -17,6 +18,7 @@ public class SpawnVisualizerEvent {
 
     static HashMap<BlockPos, List<Color>> positions;
     static ParticleSpawner particleSpawner;
+    static CompletableFuture<Void> scan;
 
     public static void tick(Minecraft minecraft) {
         checkKeyPresses(minecraft);
@@ -27,14 +29,16 @@ public class SpawnVisualizerEvent {
         if (level == null) return;
 
         showParticles();
-        if (level.getGameTime() % 5 == 0) {
-            scanPositions();
+
+        if (scan == null || scan.isDone()) {
+            scan = scanPositions();
         }
+
 
     }
 
-    private static void scanPositions() {
-        CompletableFuture.supplyAsync(PositionScanner::new)
+    private static CompletableFuture<Void> scanPositions() {
+        return CompletableFuture.supplyAsync(PositionScanner::new)
                 .thenApply(PositionScanner::findSpawnablePositions)
                 .thenAccept(map -> positions = map);
     }
