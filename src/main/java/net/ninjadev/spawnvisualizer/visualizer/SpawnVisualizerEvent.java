@@ -1,10 +1,9 @@
 package net.ninjadev.spawnvisualizer.visualizer;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
-import net.ninjadev.spawnvisualizer.SpawnVisualizer;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.ninjadev.spawnvisualizer.gui.ConfigScreen;
 import net.ninjadev.spawnvisualizer.init.ModConfigs;
 import net.ninjadev.spawnvisualizer.init.ModKeybinds;
@@ -25,7 +24,7 @@ public class SpawnVisualizerEvent {
 
         if (!ModConfigs.GENERAL.isEnabled()) return;
 
-        ClientWorld level = minecraft.level;
+        ClientLevel level = minecraft.level;
         if (level == null) return;
 
         showParticles();
@@ -53,7 +52,7 @@ public class SpawnVisualizerEvent {
     private static void checkKeyPresses(Minecraft minecraft) {
         if (minecraft.screen != null) return;
         while (ModKeybinds.OPEN_MENU.consumeClick()) {
-            minecraft.setScreen(new ConfigScreen(ITextComponent.nullToEmpty("Spawn Visualizer Options")));
+            minecraft.setScreen(new ConfigScreen(Component.nullToEmpty("Spawn Visualizer Options")));
         }
         while (ModKeybinds.TOGGLE.consumeClick()) {
             if (!ModConfigs.GENERAL.toggleEnabled()) {

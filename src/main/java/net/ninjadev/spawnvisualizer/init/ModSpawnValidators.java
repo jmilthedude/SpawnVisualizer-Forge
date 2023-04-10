@@ -1,6 +1,6 @@
 package net.ninjadev.spawnvisualizer.init;
 
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.ninjadev.spawnvisualizer.SpawnVisualizer;
 import net.ninjadev.spawnvisualizer.settings.SpawnValidator;
 

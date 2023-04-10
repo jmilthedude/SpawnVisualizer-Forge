@@ -1,29 +1,23 @@
 package net.ninjadev.spawnvisualizer.particle;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.client.renderer.LightTexture;
-import net.minecraft.client.renderer.texture.AtlasTexture;
-import net.minecraft.client.renderer.texture.Texture;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.particles.RedstoneParticleData;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.RandomSource;
 import net.ninjadev.spawnvisualizer.SpawnVisualizer;
 import net.ninjadev.spawnvisualizer.init.ModParticles;
-import org.spongepowered.asm.mixin.injection.At;
 
 import javax.annotation.Nonnull;
-import java.util.HashMap;
-import java.util.Random;
 
 public class SpawnDustParticle<T extends SpawnDustParticleOptions>
-        extends SpriteTexturedParticle {
+        extends TextureSheetParticle {
 
-    private final IAnimatedSprite spriteProvider;
+    private final SpriteSet spriteProvider;
 
-    public SpawnDustParticle(ClientWorld clientWorld, double x, double y, double z, T parameters, IAnimatedSprite spriteProvider) {
+    public SpawnDustParticle(ClientLevel clientWorld, double x, double y, double z, T parameters, SpriteSet spriteProvider) {
         super(clientWorld, x, y, z);
         this.rCol = parameters.getRed();
         this.gCol = parameters.getGreen();
@@ -52,35 +46,35 @@ public class SpawnDustParticle<T extends SpawnDustParticleOptions>
 
     @Nonnull
     @Override
-    public IParticleRenderType getRenderType() {
-        return IParticleRenderType.PARTICLE_SHEET_LIT;
+    public ParticleRenderType getRenderType() {
+        return ParticleRenderType.PARTICLE_SHEET_LIT;
     }
 
-    public static class Factory implements IParticleFactory<SpawnDustParticleOptions> {
-        private final IAnimatedSprite spriteProvider;
+    public static class Factory implements ParticleProvider<SpawnDustParticleOptions> {
+        private final SpriteSet spriteProvider;
 
-        public Factory(IAnimatedSprite ignored) {
-            this.spriteProvider = new IAnimatedSprite() {
+        public Factory(SpriteSet ignored) {
+            this.spriteProvider = new SpriteSet() {
 
                 @Override
                 @Nonnull
                 public TextureAtlasSprite get(int pAge, int pLifetime) {
-                    AtlasTexture texture = (AtlasTexture) Minecraft.getInstance().textureManager.getTexture(ModParticles.PARTICLE_SHEET);
+                    TextureAtlas texture = (TextureAtlas) Minecraft.getInstance().textureManager.getTexture(ModParticles.PARTICLE_SHEET);
                     int spriteId = (pAge * 7) / pLifetime;
                     return texture.getSprite(SpawnVisualizer.id("particle/spawn_dust"));
                 }
 
                 @Override
                 @Nonnull
-                public TextureAtlasSprite get(Random random) {
-                    AtlasTexture texture = (AtlasTexture) Minecraft.getInstance().textureManager.getTexture(ModParticles.PARTICLE_SHEET);
+                public TextureAtlasSprite get(RandomSource random) {
+                    TextureAtlas texture = (TextureAtlas) Minecraft.getInstance().textureManager.getTexture(ModParticles.PARTICLE_SHEET);
                     return texture.getSprite(SpawnVisualizer.id("particle/spawn_dust"));
                 }
             };
         }
 
         @Override
-        public Particle createParticle(@Nonnull SpawnDustParticleOptions effect, @Nonnull ClientWorld clientWorld, double x, double y, double z, double velocityX, double velocityY, double velocityZ) {
+        public Particle createParticle(@Nonnull SpawnDustParticleOptions effect, @Nonnull ClientLevel clientWorld, double x, double y, double z, double velocityX, double velocityY, double velocityZ) {
             SpawnDustParticle<SpawnDustParticleOptions> particle = new SpawnDustParticle<>(clientWorld, x, y, z, effect, spriteProvider);
             particle.pickSprite(this.spriteProvider);
             return particle;

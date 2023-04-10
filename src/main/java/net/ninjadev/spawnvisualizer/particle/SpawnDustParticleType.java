@@ -1,7 +1,7 @@
 package net.ninjadev.spawnvisualizer.particle;
 
 import com.mojang.serialization.Codec;
-import net.minecraft.particles.ParticleType;
+import net.minecraft.core.particles.ParticleType;
 
 import javax.annotation.Nonnull;
 
