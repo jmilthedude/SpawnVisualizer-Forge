@@ -17,7 +17,7 @@ public abstract class RangeSliderWidget extends AbstractSliderButton {
 
     protected void setNewValue(double value) {
         double current = this.value;
-        this.value = Mth.clamp(value, this.min, this.max);
+        this.value = Mth.clamp(value, 0.0f,1.0f);
         if (current != this.value) {
             this.applyValue();
         }

@@ -41,7 +41,7 @@ public class SpawnDustParticle<T extends SpawnDustParticleOptions>
 
     @Override
     protected int getLightColor(float f) {
-        return LightTexture.pack(15, 15);
+        return LightTexture.FULL_BRIGHT;
     }
 
     @Nonnull
