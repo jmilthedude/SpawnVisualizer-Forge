@@ -1,8 +1,8 @@
 package net.ninjadev.spawnvisualizer.util;
 
 
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.biome.Biomes;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.biome.Biomes;
 
 import java.util.ArrayList;
 import java.util.List;

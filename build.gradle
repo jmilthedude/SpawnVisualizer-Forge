@@ -21,11 +21,11 @@ version = "${project.minecraft_version}-${project.mod_version}"
 group = "${project.maven_group}"
 
 java {
-    toolchain.languageVersion = JavaLanguageVersion.of(8)
+    toolchain.languageVersion = JavaLanguageVersion.of(17)
 }
 
 minecraft {
-    mappings channel: 'parchment', version: "${project.parchment_version}"
+    mappings channel: 'official', version: "${project.minecraft_version}"
 
     runs {
         client {

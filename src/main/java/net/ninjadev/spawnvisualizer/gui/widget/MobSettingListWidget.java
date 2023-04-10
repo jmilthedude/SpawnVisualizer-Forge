@@ -1,16 +1,19 @@
 package net.ninjadev.spawnvisualizer.gui.widget;
 
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.gui.narration.NarratableEntry;
+import net.minecraft.client.gui.narration.NarrationElementOutput;
+import net.minecraft.resources.ResourceLocation;
 import net.ninjadev.spawnvisualizer.gui.widget.entry.MobEntry;
 import net.ninjadev.spawnvisualizer.init.ModConfigs;
 import net.ninjadev.spawnvisualizer.init.ModSpawnValidators;
 import net.ninjadev.spawnvisualizer.settings.SpawnValidator;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class MobSettingListWidget extends ScrollingListWidget {
+public class MobSettingListWidget extends ScrollingListWidget implements NarratableEntry {
 
     public MobSettingListWidget(int x, int y, int width, int height) {
         super(x, y, width, height);
@@ -33,5 +36,15 @@ public class MobSettingListWidget extends ScrollingListWidget {
         SpawnValidator validator = ModSpawnValidators.getValidator(id);
         MobEntry buttonEntry = new MobEntry((this.getBounds().width - scrollBarWidth) / 2 - 45, buttonY, validator, this);
         this.addEntry(buttonEntry);
+    }
+
+    @Override
+    public @NotNull NarrationPriority narrationPriority() {
+        return NarrationPriority.NONE;
+    }
+
+    @Override
+    public void updateNarration(NarrationElementOutput ignored) {
+
     }
 }

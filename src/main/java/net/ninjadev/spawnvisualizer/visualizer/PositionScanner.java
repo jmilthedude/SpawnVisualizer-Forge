@@ -1,9 +1,9 @@
 package net.ninjadev.spawnvisualizer.visualizer;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.player.ClientPlayerEntity;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.core.BlockPos;
 import net.ninjadev.spawnvisualizer.init.ModConfigs;
 import net.ninjadev.spawnvisualizer.init.ModSpawnValidators;
 import net.ninjadev.spawnvisualizer.settings.SpawnValidator;
@@ -18,10 +18,10 @@ public class PositionScanner {
     public HashMap<BlockPos, List<Color>> findSpawnablePositions() {
         final HashMap<BlockPos, List<Color>> spawnablePositions = new HashMap<>();
 
-        ClientPlayerEntity player = Minecraft.getInstance().player;
+        LocalPlayer player = Minecraft.getInstance().player;
         if (player == null) return spawnablePositions;
 
-        ClientWorld level = player.clientLevel;
+        ClientLevel level = player.clientLevel;
         BlockPos pos = player.blockPosition();
         for (int x = -ModConfigs.GENERAL.getRangeHorizontal(); x <= ModConfigs.GENERAL.getRangeHorizontal(); x++) {
             for (int y = -ModConfigs.GENERAL.getRangeVertical(); y <= ModConfigs.GENERAL.getRangeVertical(); y++) {

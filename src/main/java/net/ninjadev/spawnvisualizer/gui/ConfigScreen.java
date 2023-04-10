@@ -1,12 +1,12 @@
 package net.ninjadev.spawnvisualizer.gui;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.IGuiEventListener;
-import net.minecraft.client.gui.IRenderable;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.client.gui.components.Renderable;
+import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.ninjadev.spawnvisualizer.SpawnVisualizer;
 import net.ninjadev.spawnvisualizer.gui.widget.HorizontalRangeSlider;
 import net.ninjadev.spawnvisualizer.gui.widget.MobSettingListWidget;
@@ -23,7 +23,7 @@ public class ConfigScreen extends Screen {
 
     private MobSettingListWidget mobList;
 
-    public ConfigScreen(ITextComponent title) {
+    public ConfigScreen(Component title) {
         super(title);
     }
 
@@ -32,7 +32,7 @@ public class ConfigScreen extends Screen {
         int buttonY = 40;
         int buttonHeight = 24;
 
-        OptionEntry enableButton = new OptionEntry(this.width / 2 - 45, buttonY, ITextComponent.nullToEmpty("Toggle On/Off"));
+        OptionEntry enableButton = new OptionEntry(this.width / 2 - 45, buttonY, Component.nullToEmpty("Toggle On/Off"));
 
         this.addWidget(enableButton);
         buttonY += buttonHeight + 4;
@@ -84,12 +84,12 @@ public class ConfigScreen extends Screen {
     }
 
     @Override
-    public void render(@Nonnull MatrixStack matrices, int mouseX, int mouseY, float delta) {
+    public void render(@Nonnull PoseStack matrices, int mouseX, int mouseY, float delta) {
         this.renderBackground(matrices);
         Screen.drawCenteredString(matrices, this.font, this.title, this.width / 2, 15, 0xFFFFFF);
-        for (IGuiEventListener child : this.children) {
-            if(child instanceof IRenderable) {
-                IRenderable widget = (IRenderable) child;
+        for (GuiEventListener child : this.children()) {
+            if(child instanceof Renderable) {
+                Renderable widget = (Renderable) child;
                 widget.render(matrices, mouseX, mouseY, delta);
             }
         }

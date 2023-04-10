@@ -1,9 +1,9 @@
 package net.ninjadev.spawnvisualizer.visualizer;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.Vec3;
 import net.ninjadev.spawnvisualizer.particle.SpawnDustParticleOptions;
 
 import java.awt.*;
@@ -17,13 +17,13 @@ public class ParticleSpawner {
     }
 
     public void spawn(BlockPos pos, List<Color> colors) {
-        ClientWorld world = Minecraft.getInstance().level;
+        ClientLevel world = Minecraft.getInstance().level;
         if (world == null) return;
 
         //TODO: Add simple version for less particles
 
         colors.forEach(color -> {
-            Vector3d colorVec = Vector3d.fromRGB24(color.getRGB());
+            Vec3 colorVec = Vec3.fromRGB24(color.getRGB());
             SpawnDustParticleOptions particleData = new SpawnDustParticleOptions((float) colorVec.x, (float) colorVec.y, (float) colorVec.z, 1.5f);
 
             double width = .4D;
