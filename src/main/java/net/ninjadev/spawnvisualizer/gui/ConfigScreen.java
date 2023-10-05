@@ -2,6 +2,8 @@ package net.ninjadev.spawnvisualizer.gui;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
@@ -47,16 +49,16 @@ public class ConfigScreen extends Screen {
         this.addWidget(vertical);
         buttonY += buttonHeight;
 
-        mobList = new MobSettingListWidget((this.width / 2) - 50, buttonY, 100, this.height - buttonY - 15);
+        mobList = new MobSettingListWidget((this.width / 2) - 135, buttonY, 270, this.height - 15);
         this.addWidget(mobList);
     }
 
     @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double amount) {
-        if (mobList.isMouseOver(mouseX, mouseY)) {
-            return mobList.mouseScrolled(mouseX, mouseY, amount);
+    public boolean mouseScrolled(double p_94686_, double p_94687_, double p_94688_, double p_299502_) {
+        if (mobList.isMouseOver(p_94686_, p_94687_)) {
+            return mobList.mouseScrolled(p_94686_, p_94687_, p_94688_, p_299502_);
         }
-        return super.mouseScrolled(mouseX, mouseY, amount);
+        return super.mouseScrolled(p_94686_, p_94687_, p_94688_, p_299502_);
     }
 
     @Override
@@ -69,31 +71,23 @@ public class ConfigScreen extends Screen {
 
     @Override
     public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
-        if (mobList.isScrolling()) {
             return mobList.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
-        }
-        return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
     }
 
     @Override
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
-        if (mobList.isScrolling()) {
             return mobList.mouseReleased(mouseX, mouseY, button);
-        }
-        return super.mouseReleased(mouseX, mouseY, button);
     }
 
     @Override
-    public void render(@Nonnull PoseStack matrices, int mouseX, int mouseY, float delta) {
-        this.renderBackground(matrices);
-        Screen.drawCenteredString(matrices, this.font, this.title, this.width / 2, 15, 0xFFFFFF);
+    public void render(@Nonnull GuiGraphics graphics, int mouseX, int mouseY, float delta) {
+        super.render(graphics, mouseX, mouseY, delta);
+        graphics.drawCenteredString(this.font, this.title, this.width / 2, 15, 0xFFFFFF);
         for (GuiEventListener child : this.children()) {
-            if(child instanceof Renderable) {
-                Renderable widget = (Renderable) child;
-                widget.render(matrices, mouseX, mouseY, delta);
+            if(child instanceof Renderable widget) {
+                widget.render(graphics, mouseX, mouseY, delta);
             }
         }
-        super.render(matrices, mouseX, mouseY, delta);
     }
 
     @Override
